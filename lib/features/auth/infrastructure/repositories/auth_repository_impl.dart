@@ -3,7 +3,7 @@ import 'package:flutter_products/features/auth/auth.dart';
 class AuthRepositoryImpl extends AuthRepository {
   final AuthDatasource datasource;
 
-  new(AuthDatasource? datasource)
+  new({AuthDatasource? datasource})
     : datasource = datasource ?? AuthDatasourceImpl();
 
   @override

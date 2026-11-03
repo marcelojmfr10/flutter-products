@@ -1,6 +1,12 @@
+import 'package:flutter_products/features/auth/presentation/providers/auth_provider.dart';
 import 'package:flutter_products/features/shared/shared.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:formz/formz.dart';
+
+typedef LoginUserCallback = Future<void> Function(
+  String email,
+  String password,
+);
 
 class LoginFormState {
   final bool isPosting;
@@ -50,8 +56,13 @@ final loginFormProvider =
     );
 
 class LogimFormNotifier extends Notifier<LoginFormState> {
+  late final LoginUserCallback loginUserCallback;
+
   @override
-  build() => LoginFormState();
+  build() {
+    loginUserCallback = ref.watch(authProvider.notifier).loginUser;
+    return LoginFormState();
+  }
 
   onEmailChange(String value) {
     final newEmail = Email.dirty(value);
@@ -69,12 +80,12 @@ class LogimFormNotifier extends Notifier<LoginFormState> {
     );
   }
 
-  onFormSubmit() {
+  onFormSubmit() async {
     _touchEveryField();
 
     if (!state.isValid) return;
 
-    print(state);
+    await loginUserCallback(state.email.value, state.password.value);
   }
 
   _touchEveryField() {
