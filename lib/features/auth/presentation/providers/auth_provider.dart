@@ -45,8 +45,8 @@ class AuthNotifier extends Notifier<AuthState> {
     try {
       final user = await _authRepository.login(email, password);
       _setLoggedUser(user);
-    } on WrongCredentials {
-      logout('Credenciales no son correctas');
+    } on CustomError catch (e) {
+      logout(e.message);
     } catch (e) {
       logout('Error no controlado');
     }
@@ -57,7 +57,11 @@ class AuthNotifier extends Notifier<AuthState> {
   void checkAuthStatus() async {}
 
   void _setLoggedUser(User user) {
-    state = state.copyWith(user: user, authStatus: AuthStatus.authenticated);
+    state = state.copyWith(
+      user: user,
+      authStatus: AuthStatus.authenticated,
+      errorMessage: '',
+    );
   }
 
   Future<void> logout(String? errorMessage) async {

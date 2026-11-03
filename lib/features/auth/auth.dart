@@ -2,6 +2,7 @@ export 'presentation/screens/login_screen.dart';
 export 'presentation/screens/register_screen.dart';
 
 export 'presentation/providers/login_form_provider.dart';
+export 'presentation/providers/auth_provider.dart';
 
 export 'domain/datasources/auth_datasource.dart';
 export 'domain/entities/user.dart';
