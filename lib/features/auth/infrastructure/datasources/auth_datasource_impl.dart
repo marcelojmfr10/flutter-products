@@ -1,6 +1,10 @@
+import 'package:dio/dio.dart';
+import 'package:flutter_products/config/config.dart';
 import 'package:flutter_products/features/auth/auth.dart';
 
 class AuthDatasourceImpl extends AuthDatasource {
+  final dio = Dio(BaseOptions(baseUrl: Environment.apiURL));
+
   @override
   Future<User> checkAuthStatus(String token) {
     // TODO: implement checkAuthStatus
@@ -8,9 +12,18 @@ class AuthDatasourceImpl extends AuthDatasource {
   }
 
   @override
-  Future<User> login(String email, String password) {
-    // TODO: implement login
-    throw UnimplementedError();
+  Future<User> login(String email, String password) async {
+    try {
+      final response = await dio.post(
+        '/auth/login',
+        data: {'email': email, 'password': password},
+      );
+
+      final user = UserMapper.userJsonToEntity(response.data);
+      return user;
+    } catch (e) {
+      throw WrongCredentials();
+    }
   }
 
   @override

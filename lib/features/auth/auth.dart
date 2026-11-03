@@ -9,3 +9,5 @@ export 'domain/repositories/auth_repository.dart';
 
 export 'infrastructure/datasources/auth_datasource_impl.dart';
 export 'infrastructure/repositories/auth_repository_impl.dart';
+export 'infrastructure/mappers/user_mapper.dart';
+export 'infrastructure/errors/auth_errors.dart';
