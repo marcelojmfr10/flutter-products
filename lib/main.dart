@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_products/config/router/app_router.dart';
-import 'package:flutter_products/config/theme/app_theme.dart';
+import 'package:flutter_products/config/config.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-void main() {
+Future<void> main() async {
+  await Environment.initEnvironment();
   runApp(const ProviderScope(child: MainApp()));
 }
 
