@@ -1,8 +1,13 @@
 import 'package:flutter_products/features/auth/auth.dart';
+import 'package:flutter_products/features/shared/shared.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final authRepositoryProvider = Provider((ref) {
   return AuthRepositoryImpl();
+});
+
+final keyValueStorageProvider = Provider((ref) {
+  return KeyValueStorageServiceImpl();
 });
 
 enum AuthStatus { checking, authenticated, notAuthenticated }
@@ -35,6 +40,8 @@ final authProvider = NotifierProvider.autoDispose<AuthNotifier, AuthState>(
 
 class AuthNotifier extends Notifier<AuthState> {
   AuthRepository get _authRepository => ref.read(authRepositoryProvider);
+  KeyValueStorageService get _keyValueStorage =>
+      ref.read(keyValueStorageProvider);
 
   @override
   build() => AuthState();
@@ -56,7 +63,8 @@ class AuthNotifier extends Notifier<AuthState> {
 
   void checkAuthStatus() async {}
 
-  void _setLoggedUser(User user) {
+  void _setLoggedUser(User user) async {
+    await _keyValueStorage.setKeyValue('token', user.token);
     state = state.copyWith(
       user: user,
       authStatus: AuthStatus.authenticated,
@@ -65,6 +73,7 @@ class AuthNotifier extends Notifier<AuthState> {
   }
 
   Future<void> logout(String? errorMessage) async {
+    await _keyValueStorage.removeKey('token');
     state = state.copyWith(
       authStatus: AuthStatus.notAuthenticated,
       user: null,
