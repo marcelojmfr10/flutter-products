@@ -3,8 +3,13 @@ import 'package:flutter_products/features/products/products.dart';
 import 'package:go_router/go_router.dart';
 
 final appRouter = GoRouter(
-  initialLocation: '/',
+  initialLocation: '/splash',
   routes: [
+    GoRoute(
+      path: '/splash',
+      builder: (context, state) => const CheckAuthStatusScreen(),
+    ),
+
     ///* Auth Routes
     GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
     GoRoute(

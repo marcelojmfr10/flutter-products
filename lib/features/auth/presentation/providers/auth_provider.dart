@@ -34,7 +34,7 @@ class AuthState {
   );
 }
 
-final authProvider = NotifierProvider.autoDispose<AuthNotifier, AuthState>(
+final authProvider = NotifierProvider<AuthNotifier, AuthState>(
   AuthNotifier.new,
 );
 
@@ -44,7 +44,10 @@ class AuthNotifier extends Notifier<AuthState> {
       ref.read(keyValueStorageProvider);
 
   @override
-  build() => AuthState();
+  build() {
+    Future.microtask(checkAuthStatus);
+    return AuthState();
+  }
 
   Future<void> loginUser(String email, String password) async {
     await Future.delayed(Duration(milliseconds: 500));
@@ -61,7 +64,19 @@ class AuthNotifier extends Notifier<AuthState> {
 
   void registerUser(String email, String password, String fullName) async {}
 
-  void checkAuthStatus() async {}
+  void checkAuthStatus() async {
+    final token = await _keyValueStorage.getKeyValue<String>('token');
+    if (token == null) return logout();
+
+    try {
+      final user = await _authRepository.checkAuthStatus(token);
+      _setLoggedUser(user);
+    } on CustomError catch (e) {
+      logout(e.message);
+    } catch (e) {
+      logout('Error no controlado');
+    }
+  }
 
   void _setLoggedUser(User user) async {
     await _keyValueStorage.setKeyValue('token', user.token);
@@ -72,7 +87,7 @@ class AuthNotifier extends Notifier<AuthState> {
     );
   }
 
-  Future<void> logout(String? errorMessage) async {
+  Future<void> logout([String? errorMessage]) async {
     await _keyValueStorage.removeKey('token');
     state = state.copyWith(
       authStatus: AuthStatus.notAuthenticated,
