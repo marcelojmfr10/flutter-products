@@ -63,10 +63,12 @@ class _LoginForm extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     final loginForm = ref.watch(loginFormProvider);
+
     ref.listen(authProvider, (previous, next) {
       if (next.errorMessage.isEmpty) return;
       showSnackbar(context, next.errorMessage);
     });
+
     final textStyles = Theme.of(context).textTheme;
 
     return Padding(
@@ -104,9 +106,9 @@ class _LoginForm extends ConsumerWidget {
             child: CustomFilledButton(
               text: 'Ingresar',
               buttonColor: Colors.black,
-              onPressed: () {
-                ref.read(loginFormProvider.notifier).onFormSubmit();
-              },
+              onPressed: loginForm.isPosting
+                  ? null
+                  : ref.read(loginFormProvider.notifier).onFormSubmit,
             ),
           ),
 
