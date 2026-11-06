@@ -5,4 +5,5 @@ export 'domain/repositories/products_repository.dart';
 export 'infrastructure/datasources/products_datasource_impl.dart';
 export 'infrastructure/repositories/products_repository_impl.dart';
 
+export 'mappers/product_mapper.dart';
 export 'presentation/screens/products_screen.dart';

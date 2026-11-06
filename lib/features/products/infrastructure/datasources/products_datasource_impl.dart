@@ -35,7 +35,9 @@ class ProductsDatasourceImpl extends ProductsDatasource {
       '/products?limit=$limit&offset=$offset',
     );
     final List<Product> products = [];
-    for (final product in response.data ?? []) {}
+    for (final product in response.data ?? []) {
+      products.add(ProductMapper.jsonToEntity(product));
+    }
 
     return products;
   }
