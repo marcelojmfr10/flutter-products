@@ -7,5 +7,10 @@ export 'presentation/widgets/custom_product_field.dart';
 
 export 'infrastructure/inputs/email.dart';
 export 'infrastructure/inputs/password.dart';
+export 'infrastructure/inputs/title.dart';
+export 'infrastructure/inputs/slug.dart';
+export 'infrastructure/inputs/price.dart';
+export 'infrastructure/inputs/stock.dart';
+
 export 'infrastructure/services/key_value_storage_service.dart';
 export 'infrastructure/services/key_value_storage_service_impl.dart';
