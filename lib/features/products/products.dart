@@ -10,3 +10,5 @@ export 'presentation/screens/products_screen.dart';
 
 export 'presentation/providers/products_repository_provider.dart';
 export 'presentation/providers/products_provider.dart';
+
+export 'presentation/widgets/product_card.dart';
