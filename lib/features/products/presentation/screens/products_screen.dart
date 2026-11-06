@@ -3,6 +3,7 @@ import 'package:flutter_products/features/products/products.dart';
 import 'package:flutter_products/features/shared/shared.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:go_router/go_router.dart';
 
 class ProductsScreen extends StatelessWidget {
   const ProductsScreen({super.key});
@@ -68,7 +69,10 @@ class _ProductsViewState extends ConsumerState<_ProductsView> {
         itemCount: productsState.products.length,
         itemBuilder: (context, index) {
           final product = productsState.products[index];
-          return ProductCard(product: product);
+          return GestureDetector(
+            child: ProductCard(product: product),
+            onTap: () => context.push('/product/${product.id}'),
+          );
         },
       ),
     );
