@@ -127,6 +127,10 @@ class ProductFormNotifier extends Notifier<ProductFormState> {
     state = state.copyWith(isFormValid: _validate());
   }
 
+  void updateProductImage(String path) {
+    state = state.copyWith(images: [...state.images, path]);
+  }
+
   void onTitleChanged(String value) {
     final title = Title.dirty(value);
     state = state.copyWith(
