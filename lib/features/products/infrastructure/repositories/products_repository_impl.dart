@@ -11,8 +11,8 @@ class ProductsRepositoryImpl extends ProductsRepository {
   }
 
   @override
-  Future<Product> getProductsById(String id) {
-    return datasource.getProductsById(id);
+  Future<Product> getProductById(String id) {
+    return datasource.getProductById(id);
   }
 
   @override
