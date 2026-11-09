@@ -68,8 +68,8 @@ class ProductFormNotifier extends Notifier<ProductFormState> {
 
   final Product product;
 
-  // Future<bool> Function(Map<String, dynamic> productLike) get _onSubmit =>
-  //     ref.read(productsProvider.notifier).createOrUpdateProduct;
+  Future<bool> Function(Map<String, dynamic> productLike) get _onSubmit =>
+      ref.read(productsProvider.notifier).createOrUpdateProduct;
 
   @override
   ProductFormState build() => ProductFormState(
@@ -108,8 +108,7 @@ class ProductFormNotifier extends Notifier<ProductFormState> {
     };
 
     try {
-      // return await _onSubmit(productLike);
-      return true;
+      return await _onSubmit(productLike);
     } catch (e) {
       return false;
     }
