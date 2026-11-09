@@ -29,13 +29,14 @@ class ProductScreen extends ConsumerWidget {
   }
 }
 
-class _ProductView extends StatelessWidget {
+class _ProductView extends ConsumerWidget {
   final Product product;
 
   const _ProductView({required this.product});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
+    final productform = ref.watch(productFormProvider(product));
     final textStyles = Theme.of(context).textTheme;
 
     return ListView(
