@@ -23,7 +23,23 @@ class ProductScreen extends ConsumerWidget {
         appBar: AppBar(
           title: Text('Editar Producto'),
           actions: [
-            IconButton(onPressed: () {}, icon: Icon(Icons.camera_alt_outlined)),
+            IconButton(
+              onPressed: () async {
+                final photoPath = await CameraGalleryServiceImpl()
+                    .selectPhoto();
+
+                if (photoPath == null) return;
+              },
+              icon: Icon(Icons.photo_library_outlined),
+            ),
+            IconButton(
+              onPressed: () async {
+                final photoPath = await CameraGalleryServiceImpl().takePhoto();
+
+                if (photoPath == null) return;
+              },
+              icon: Icon(Icons.camera_alt_outlined),
+            ),
           ],
         ),
         body: productState.isLoading
